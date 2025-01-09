@@ -453,6 +453,8 @@ class CleanLoop:
                 )
             lc_temp = deepcopy(self.sn.lcs[0])
             ix = lc_temp.ix_inrange("MJD", uplim=self.sn.mjd0)
+            if len(ix) < 1:
+                raise RuntimeError("ERROR: no pre-MJD0 light curve available")
         else:
             print("Using control light curves to determine contamination and loss")
             if self.sn.num_controls < 1:
@@ -744,7 +746,11 @@ class CleanLoop:
             )
 
             if mjd0 is None and (
-                plot or cut_list.get("x2_cut").params["use_pre_mjd0_lc"]
+                plot
+                or (
+                    cut_list.get("x2_cut")
+                    and cut_list.get("x2_cut").params["use_pre_mjd0_lc"]
+                )
             ):
                 mjd0, coords = get_mjd0(tnsname, self.sninfo, self.credentials)
                 if not coords is None:
