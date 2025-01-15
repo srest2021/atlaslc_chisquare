@@ -186,7 +186,7 @@ class Plot:
         preMJD0_ix = sn_lc.get_preMJD0_indices(sn.mjd0)
         postMJD0_ix = sn_lc.get_postMJD0_indices(sn.mjd0)
 
-        if not sn_lc.is_all_nan(preMJD0_ix):
+        if sn_lc.can_plot(preMJD0_ix):
             # plot pre-MJD0 SN light curve
             plt.errorbar(
                 sn_lc.t.loc[preMJD0_ix, "MJD"],
@@ -212,7 +212,7 @@ class Plot:
                 label="Pre-MJD0 light curve",
             )
 
-        if not sn_lc.is_all_nan(postMJD0_ix):
+        if sn_lc.can_plot(postMJD0_ix):
             # plot post-MJD0 SN light curve
             plt.errorbar(
                 sn_lc.t.loc[postMJD0_ix, "MJD"],
@@ -290,7 +290,7 @@ class Plot:
         good_ix = lc.get_good_indices(flag)
         bad_ix = lc.get_bad_indices(flag)
 
-        if not lc.is_all_nan(good_ix):
+        if lc.can_plot(good_ix):
             ax1.errorbar(
                 lc.t.loc[good_ix, "MJD"],
                 lc.t.loc[good_ix, "uJy"],
@@ -337,7 +337,7 @@ class Plot:
                 zorder=5,
             )
 
-        if not lc.is_all_nan(bad_ix):
+        if lc.can_plot(bad_ix):
             ax2.errorbar(
                 lc.t.loc[bad_ix, "MJD"],
                 lc.t.loc[bad_ix, "uJy"],
@@ -410,7 +410,7 @@ class Plot:
                 lc = sn.lcs[control_index]
                 good_ix = lc.get_good_indices(flag)
 
-                if not lc.is_all_nan(good_ix):
+                if lc.can_plot(good_ix):
                     plt.errorbar(
                         lc.t.loc[good_ix, "MJD"],
                         lc.t.loc[good_ix, "uJy"],
@@ -443,7 +443,7 @@ class Plot:
         if plot_flagged:
             bad_ix = sn_lc.get_bad_indices(flag)
 
-            if not sn_lc.is_all_nan(bad_ix):
+            if sn_lc.can_plot(bad_ix):
                 ax1.errorbar(
                     sn_lc.t.loc[bad_ix, "MJD"],
                     sn_lc.t.loc[bad_ix, "uJy"],
@@ -470,7 +470,7 @@ class Plot:
                     zorder=10,
                 )
 
-        if not sn_lc.is_all_nan(good_ix):
+        if sn_lc.can_plot(good_ix):
             plt.errorbar(
                 sn_lc.t.loc[good_ix, "MJD"],
                 sn_lc.t.loc[good_ix, "uJy"],
@@ -537,7 +537,7 @@ class Plot:
                 lc = avg_sn.avg_lcs[control_index]
                 good_ix = lc.get_good_indices(flag)
 
-                if not lc.is_all_nan(good_ix):
+                if lc.can_plot(good_ix):
                     plt.errorbar(
                         lc.t.loc[good_ix, "MJD"],
                         lc.t.loc[good_ix, "uJy"],
@@ -570,7 +570,7 @@ class Plot:
         if plot_flagged:
             bad_ix = avg_sn_lc.get_bad_indices(flag)
 
-            if not avg_sn_lc.is_all_nan(bad_ix):
+            if avg_sn_lc.can_plot(bad_ix):
                 ax1.errorbar(
                     avg_sn_lc.t.loc[bad_ix, "MJD"],
                     avg_sn_lc.t.loc[bad_ix, "uJy"],
@@ -597,7 +597,7 @@ class Plot:
                     zorder=10,
                 )
 
-        if not avg_sn_lc.is_all_nan(good_ix):
+        if avg_sn_lc.can_plot(good_ix):
             plt.errorbar(
                 avg_sn_lc.t.loc[good_ix, "MJD"],
                 avg_sn_lc.t.loc[good_ix, "uJy"],
