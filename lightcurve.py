@@ -1218,6 +1218,9 @@ class LightCurve(pdastrostatsclass):
     def can_plot(self, ix: List[int], columns: List[str] = None):
         if columns is None:
             columns = ["MJD", "uJy", self.dflux_colname]
+
+        # check that we are plotting at least one row
+        # and that the columns to plot are not all NaN values
         return len(ix) > 0 and not self.t.loc[ix, columns].isna().all().all()
 
     def remove_invalid_rows(self, verbose=False):
