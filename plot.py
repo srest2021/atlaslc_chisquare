@@ -186,55 +186,57 @@ class Plot:
         preMJD0_ix = sn_lc.get_preMJD0_indices(sn.mjd0)
         postMJD0_ix = sn_lc.get_postMJD0_indices(sn.mjd0)
 
-        # plot pre-MJD0 SN light curve
-        plt.errorbar(
-            sn_lc.t.loc[preMJD0_ix, "MJD"],
-            sn_lc.t.loc[preMJD0_ix, "uJy"],
-            yerr=sn_lc.t.loc[preMJD0_ix, sn_lc.dflux_colname],
-            fmt="none",
-            ecolor="magenta",
-            elinewidth=1,
-            capsize=1.2,
-            c="magenta",
-            alpha=0.5,
-            zorder=10,
-        )
-        plt.scatter(
-            sn_lc.t.loc[preMJD0_ix, "MJD"],
-            sn_lc.t.loc[preMJD0_ix, "uJy"],
-            s=marker_size,
-            lw=marker_edgewidth,
-            color="magenta",
-            marker="o",
-            alpha=0.5,
-            zorder=10,
-            label="Pre-MJD0 light curve",
-        )
+        if not sn_lc.is_all_nan(preMJD0_ix):
+            # plot pre-MJD0 SN light curve
+            plt.errorbar(
+                sn_lc.t.loc[preMJD0_ix, "MJD"],
+                sn_lc.t.loc[preMJD0_ix, "uJy"],
+                yerr=sn_lc.t.loc[preMJD0_ix, sn_lc.dflux_colname],
+                fmt="none",
+                ecolor="magenta",
+                elinewidth=1,
+                capsize=1.2,
+                c="magenta",
+                alpha=0.5,
+                zorder=10,
+            )
+            plt.scatter(
+                sn_lc.t.loc[preMJD0_ix, "MJD"],
+                sn_lc.t.loc[preMJD0_ix, "uJy"],
+                s=marker_size,
+                lw=marker_edgewidth,
+                color="magenta",
+                marker="o",
+                alpha=0.5,
+                zorder=10,
+                label="Pre-MJD0 light curve",
+            )
 
-        # plot post-MJD0 SN light curve
-        plt.errorbar(
-            sn_lc.t.loc[postMJD0_ix, "MJD"],
-            sn_lc.t.loc[postMJD0_ix, "uJy"],
-            yerr=sn_lc.t.loc[postMJD0_ix, sn_lc.dflux_colname],
-            fmt="none",
-            ecolor="lime",
-            elinewidth=1,
-            capsize=1.2,
-            c="lime",
-            alpha=0.5,
-            zorder=10,
-        )
-        plt.scatter(
-            sn_lc.t.loc[postMJD0_ix, "MJD"],
-            sn_lc.t.loc[postMJD0_ix, "uJy"],
-            s=marker_size,
-            lw=marker_edgewidth,
-            color="lime",
-            marker="o",
-            alpha=0.5,
-            zorder=10,
-            label="Post-MJD0 light curve",
-        )
+        if not sn_lc.is_all_nan(postMJD0_ix):
+            # plot post-MJD0 SN light curve
+            plt.errorbar(
+                sn_lc.t.loc[postMJD0_ix, "MJD"],
+                sn_lc.t.loc[postMJD0_ix, "uJy"],
+                yerr=sn_lc.t.loc[postMJD0_ix, sn_lc.dflux_colname],
+                fmt="none",
+                ecolor="lime",
+                elinewidth=1,
+                capsize=1.2,
+                c="lime",
+                alpha=0.5,
+                zorder=10,
+            )
+            plt.scatter(
+                sn_lc.t.loc[postMJD0_ix, "MJD"],
+                sn_lc.t.loc[postMJD0_ix, "uJy"],
+                s=marker_size,
+                lw=marker_edgewidth,
+                color="lime",
+                marker="o",
+                alpha=0.5,
+                zorder=10,
+                label="Post-MJD0 light curve",
+            )
 
         if plot_template_changes:
             ax1.axvline(
@@ -288,77 +290,79 @@ class Plot:
         good_ix = lc.get_good_indices(flag)
         bad_ix = lc.get_bad_indices(flag)
 
-        ax1.errorbar(
-            lc.t.loc[good_ix, "MJD"],
-            lc.t.loc[good_ix, "uJy"],
-            yerr=lc.t.loc[good_ix, lc.dflux_colname],
-            fmt="none",
-            ecolor=SN_FLUX_COLORS[lc.filt],
-            elinewidth=1,
-            capsize=1.2,
-            c=SN_FLUX_COLORS[lc.filt],
-            alpha=0.5,
-        )
-        ax1.scatter(
-            lc.t.loc[good_ix, "MJD"],
-            lc.t.loc[good_ix, "uJy"],
-            s=marker_size,
-            lw=marker_edgewidth,
-            color=SN_FLUX_COLORS[lc.filt],
-            marker="o",
-            alpha=0.5,
-            label="Cleaned measurements",
-        )
+        if not lc.is_all_nan(good_ix):
+            ax1.errorbar(
+                lc.t.loc[good_ix, "MJD"],
+                lc.t.loc[good_ix, "uJy"],
+                yerr=lc.t.loc[good_ix, lc.dflux_colname],
+                fmt="none",
+                ecolor=SN_FLUX_COLORS[lc.filt],
+                elinewidth=1,
+                capsize=1.2,
+                c=SN_FLUX_COLORS[lc.filt],
+                alpha=0.5,
+            )
+            ax1.scatter(
+                lc.t.loc[good_ix, "MJD"],
+                lc.t.loc[good_ix, "uJy"],
+                s=marker_size,
+                lw=marker_edgewidth,
+                color=SN_FLUX_COLORS[lc.filt],
+                marker="o",
+                alpha=0.5,
+                label="Cleaned measurements",
+            )
 
-        ax2.errorbar(
-            lc.t.loc[good_ix, "MJD"],
-            lc.t.loc[good_ix, "uJy"],
-            yerr=lc.t.loc[good_ix, lc.dflux_colname],
-            fmt="none",
-            ecolor=SN_FLUX_COLORS[lc.filt],
-            elinewidth=1,
-            capsize=1.2,
-            c=SN_FLUX_COLORS[lc.filt],
-            alpha=0.5,
-            zorder=5,
-        )
-        ax2.scatter(
-            lc.t.loc[good_ix, "MJD"],
-            lc.t.loc[good_ix, "uJy"],
-            s=marker_size,
-            lw=marker_edgewidth,
-            color=SN_FLUX_COLORS[lc.filt],
-            marker="o",
-            alpha=0.5,
-            label="Cleaned measurements",
-            zorder=5,
-        )
+            ax2.errorbar(
+                lc.t.loc[good_ix, "MJD"],
+                lc.t.loc[good_ix, "uJy"],
+                yerr=lc.t.loc[good_ix, lc.dflux_colname],
+                fmt="none",
+                ecolor=SN_FLUX_COLORS[lc.filt],
+                elinewidth=1,
+                capsize=1.2,
+                c=SN_FLUX_COLORS[lc.filt],
+                alpha=0.5,
+                zorder=5,
+            )
+            ax2.scatter(
+                lc.t.loc[good_ix, "MJD"],
+                lc.t.loc[good_ix, "uJy"],
+                s=marker_size,
+                lw=marker_edgewidth,
+                color=SN_FLUX_COLORS[lc.filt],
+                marker="o",
+                alpha=0.5,
+                label="Cleaned measurements",
+                zorder=5,
+            )
 
-        ax2.errorbar(
-            lc.t.loc[bad_ix, "MJD"],
-            lc.t.loc[bad_ix, "uJy"],
-            yerr=lc.t.loc[bad_ix, lc.dflux_colname],
-            fmt="none",
-            ecolor=SN_FLAGGED_FLUX_COLOR,
-            elinewidth=1,
-            capsize=1.2,
-            c=SN_FLAGGED_FLUX_COLOR,
-            alpha=0.5,
-            zorder=10,
-        )
-        ax2.scatter(
-            lc.t.loc[bad_ix, "MJD"],
-            lc.t.loc[bad_ix, "uJy"],
-            s=marker_size,
-            lw=marker_edgewidth,
-            color=SN_FLAGGED_FLUX_COLOR,
-            facecolors="none",
-            edgecolors=SN_FLAGGED_FLUX_COLOR,
-            marker="o",
-            alpha=0.5,
-            label="Flagged measurements",
-            zorder=10,
-        )
+        if not lc.is_all_nan(bad_ix):
+            ax2.errorbar(
+                lc.t.loc[bad_ix, "MJD"],
+                lc.t.loc[bad_ix, "uJy"],
+                yerr=lc.t.loc[bad_ix, lc.dflux_colname],
+                fmt="none",
+                ecolor=SN_FLAGGED_FLUX_COLOR,
+                elinewidth=1,
+                capsize=1.2,
+                c=SN_FLAGGED_FLUX_COLOR,
+                alpha=0.5,
+                zorder=10,
+            )
+            ax2.scatter(
+                lc.t.loc[bad_ix, "MJD"],
+                lc.t.loc[bad_ix, "uJy"],
+                s=marker_size,
+                lw=marker_edgewidth,
+                color=SN_FLAGGED_FLUX_COLOR,
+                facecolors="none",
+                edgecolors=SN_FLAGGED_FLUX_COLOR,
+                marker="o",
+                alpha=0.5,
+                label="Flagged measurements",
+                zorder=10,
+            )
 
         ax1.set_xlim(lims.xlower, lims.xupper)
         ax1.set_ylim(lims.ylower, lims.yupper)
@@ -406,28 +410,29 @@ class Plot:
                 lc = sn.lcs[control_index]
                 good_ix = lc.get_good_indices(flag)
 
-                plt.errorbar(
-                    lc.t.loc[good_ix, "MJD"],
-                    lc.t.loc[good_ix, "uJy"],
-                    yerr=lc.t.loc[good_ix, lc.dflux_colname],
-                    fmt="none",
-                    ecolor=CONTROL_FLUX_COLOR,
-                    elinewidth=1.5,
-                    capsize=1.2,
-                    c=CONTROL_FLUX_COLOR,
-                    alpha=0.5,
-                    zorder=0,
-                )
-                plt.scatter(
-                    lc.t.loc[good_ix, "MJD"],
-                    lc.t.loc[good_ix, "uJy"],
-                    s=marker_size,
-                    color=CONTROL_FLUX_COLOR,
-                    marker="o",
-                    alpha=0.5,
-                    zorder=0,
-                    label=label,
-                )
+                if not lc.is_all_nan(good_ix):
+                    plt.errorbar(
+                        lc.t.loc[good_ix, "MJD"],
+                        lc.t.loc[good_ix, "uJy"],
+                        yerr=lc.t.loc[good_ix, lc.dflux_colname],
+                        fmt="none",
+                        ecolor=CONTROL_FLUX_COLOR,
+                        elinewidth=1.5,
+                        capsize=1.2,
+                        c=CONTROL_FLUX_COLOR,
+                        alpha=0.5,
+                        zorder=0,
+                    )
+                    plt.scatter(
+                        lc.t.loc[good_ix, "MJD"],
+                        lc.t.loc[good_ix, "uJy"],
+                        s=marker_size,
+                        color=CONTROL_FLUX_COLOR,
+                        marker="o",
+                        alpha=0.5,
+                        zorder=0,
+                        label=label,
+                    )
 
                 if not label is None:
                     label = None
@@ -438,55 +443,57 @@ class Plot:
         if plot_flagged:
             bad_ix = sn_lc.get_bad_indices(flag)
 
-            ax1.errorbar(
-                sn_lc.t.loc[bad_ix, "MJD"],
-                sn_lc.t.loc[bad_ix, "uJy"],
-                yerr=sn_lc.t.loc[bad_ix, sn_lc.dflux_colname],
+            if not sn_lc.is_all_nan(bad_ix):
+                ax1.errorbar(
+                    sn_lc.t.loc[bad_ix, "MJD"],
+                    sn_lc.t.loc[bad_ix, "uJy"],
+                    yerr=sn_lc.t.loc[bad_ix, sn_lc.dflux_colname],
+                    fmt="none",
+                    ecolor=SN_FLAGGED_FLUX_COLOR,
+                    elinewidth=1,
+                    capsize=1.2,
+                    c=SN_FLAGGED_FLUX_COLOR,
+                    alpha=0.5,
+                    zorder=10,
+                )
+                ax1.scatter(
+                    sn_lc.t.loc[bad_ix, "MJD"],
+                    sn_lc.t.loc[bad_ix, "uJy"],
+                    s=marker_size,
+                    lw=marker_edgewidth,
+                    color=SN_FLAGGED_FLUX_COLOR,
+                    facecolors="none",
+                    edgecolors=SN_FLAGGED_FLUX_COLOR,
+                    marker="o",
+                    alpha=0.5,
+                    label=f"Flagged SN {sn.tnsname} measurements",
+                    zorder=10,
+                )
+
+        if not sn_lc.is_all_nan(good_ix):
+            plt.errorbar(
+                sn_lc.t.loc[good_ix, "MJD"],
+                sn_lc.t.loc[good_ix, "uJy"],
+                yerr=sn_lc.t.loc[good_ix, sn_lc.dflux_colname],
                 fmt="none",
-                ecolor=SN_FLAGGED_FLUX_COLOR,
+                ecolor=SN_FLUX_COLORS[sn.filt],
                 elinewidth=1,
                 capsize=1.2,
-                c=SN_FLAGGED_FLUX_COLOR,
+                c=SN_FLUX_COLORS[sn.filt],
                 alpha=0.5,
                 zorder=10,
             )
-            ax1.scatter(
-                sn_lc.t.loc[bad_ix, "MJD"],
-                sn_lc.t.loc[bad_ix, "uJy"],
+            plt.scatter(
+                sn_lc.t.loc[good_ix, "MJD"],
+                sn_lc.t.loc[good_ix, "uJy"],
                 s=marker_size,
                 lw=marker_edgewidth,
-                color=SN_FLAGGED_FLUX_COLOR,
-                facecolors="none",
-                edgecolors=SN_FLAGGED_FLUX_COLOR,
+                color=SN_FLUX_COLORS[sn.filt],
                 marker="o",
                 alpha=0.5,
-                label=f"Flagged SN {sn.tnsname} measurements",
                 zorder=10,
+                label=f"Cleaned SN {sn.tnsname} measurements",
             )
-
-        plt.errorbar(
-            sn_lc.t.loc[good_ix, "MJD"],
-            sn_lc.t.loc[good_ix, "uJy"],
-            yerr=sn_lc.t.loc[good_ix, sn_lc.dflux_colname],
-            fmt="none",
-            ecolor=SN_FLUX_COLORS[sn.filt],
-            elinewidth=1,
-            capsize=1.2,
-            c=SN_FLUX_COLORS[sn.filt],
-            alpha=0.5,
-            zorder=10,
-        )
-        plt.scatter(
-            sn_lc.t.loc[good_ix, "MJD"],
-            sn_lc.t.loc[good_ix, "uJy"],
-            s=marker_size,
-            lw=marker_edgewidth,
-            color=SN_FLUX_COLORS[sn.filt],
-            marker="o",
-            alpha=0.5,
-            zorder=10,
-            label=f"Cleaned SN {sn.tnsname} measurements",
-        )
 
         ax1.set_xlim(lims.xlower, lims.xupper)
         ax1.set_ylim(lims.ylower, lims.yupper)
@@ -530,28 +537,29 @@ class Plot:
                 lc = avg_sn.avg_lcs[control_index]
                 good_ix = lc.get_good_indices(flag)
 
-                plt.errorbar(
-                    lc.t.loc[good_ix, "MJD"],
-                    lc.t.loc[good_ix, "uJy"],
-                    yerr=lc.t.loc[good_ix, lc.dflux_colname],
-                    fmt="none",
-                    ecolor=CONTROL_FLUX_COLOR,
-                    elinewidth=1.5,
-                    capsize=1.2,
-                    c=CONTROL_FLUX_COLOR,
-                    alpha=0.5,
-                    zorder=0,
-                )
-                plt.scatter(
-                    lc.t.loc[good_ix, "MJD"],
-                    lc.t.loc[good_ix, "uJy"],
-                    s=marker_size,
-                    color=CONTROL_FLUX_COLOR,
-                    marker="o",
-                    alpha=0.5,
-                    zorder=0,
-                    label=label,
-                )
+                if not lc.is_all_nan(good_ix):
+                    plt.errorbar(
+                        lc.t.loc[good_ix, "MJD"],
+                        lc.t.loc[good_ix, "uJy"],
+                        yerr=lc.t.loc[good_ix, lc.dflux_colname],
+                        fmt="none",
+                        ecolor=CONTROL_FLUX_COLOR,
+                        elinewidth=1.5,
+                        capsize=1.2,
+                        c=CONTROL_FLUX_COLOR,
+                        alpha=0.5,
+                        zorder=0,
+                    )
+                    plt.scatter(
+                        lc.t.loc[good_ix, "MJD"],
+                        lc.t.loc[good_ix, "uJy"],
+                        s=marker_size,
+                        color=CONTROL_FLUX_COLOR,
+                        marker="o",
+                        alpha=0.5,
+                        zorder=0,
+                        label=label,
+                    )
 
                 if not label is None:
                     label = None
@@ -562,55 +570,57 @@ class Plot:
         if plot_flagged:
             bad_ix = avg_sn_lc.get_bad_indices(flag)
 
-            ax1.errorbar(
-                avg_sn_lc.t.loc[bad_ix, "MJD"],
-                avg_sn_lc.t.loc[bad_ix, "uJy"],
-                yerr=avg_sn_lc.t.loc[bad_ix, avg_sn_lc.dflux_colname],
+            if not avg_sn_lc.is_all_nan(bad_ix):
+                ax1.errorbar(
+                    avg_sn_lc.t.loc[bad_ix, "MJD"],
+                    avg_sn_lc.t.loc[bad_ix, "uJy"],
+                    yerr=avg_sn_lc.t.loc[bad_ix, avg_sn_lc.dflux_colname],
+                    fmt="none",
+                    ecolor=SN_FLAGGED_FLUX_COLOR,
+                    elinewidth=1,
+                    capsize=1.2,
+                    c=SN_FLAGGED_FLUX_COLOR,
+                    alpha=0.5,
+                    zorder=10,
+                )
+                ax1.scatter(
+                    avg_sn_lc.t.loc[bad_ix, "MJD"],
+                    avg_sn_lc.t.loc[bad_ix, "uJy"],
+                    s=marker_size,
+                    lw=marker_edgewidth,
+                    color=SN_FLAGGED_FLUX_COLOR,
+                    facecolors="none",
+                    edgecolors=SN_FLAGGED_FLUX_COLOR,
+                    marker="o",
+                    alpha=0.5,
+                    label=f"Flagged averaged SN {avg_sn.tnsname} measurements",
+                    zorder=10,
+                )
+
+        if not avg_sn_lc.is_all_nan(good_ix):
+            plt.errorbar(
+                avg_sn_lc.t.loc[good_ix, "MJD"],
+                avg_sn_lc.t.loc[good_ix, "uJy"],
+                yerr=avg_sn_lc.t.loc[good_ix, avg_sn_lc.dflux_colname],
                 fmt="none",
-                ecolor=SN_FLAGGED_FLUX_COLOR,
+                ecolor=SN_FLUX_COLORS[avg_sn_lc.filt],
                 elinewidth=1,
                 capsize=1.2,
-                c=SN_FLAGGED_FLUX_COLOR,
+                c=SN_FLUX_COLORS[avg_sn_lc.filt],
                 alpha=0.5,
                 zorder=10,
             )
-            ax1.scatter(
-                avg_sn_lc.t.loc[bad_ix, "MJD"],
-                avg_sn_lc.t.loc[bad_ix, "uJy"],
+            plt.scatter(
+                avg_sn_lc.t.loc[good_ix, "MJD"],
+                avg_sn_lc.t.loc[good_ix, "uJy"],
                 s=marker_size,
                 lw=marker_edgewidth,
-                color=SN_FLAGGED_FLUX_COLOR,
-                facecolors="none",
-                edgecolors=SN_FLAGGED_FLUX_COLOR,
+                color=SN_FLUX_COLORS[avg_sn_lc.filt],
                 marker="o",
                 alpha=0.5,
-                label=f"Flagged averaged SN {avg_sn.tnsname} measurements",
                 zorder=10,
+                label=f"Cleaned & averaged SN {avg_sn.tnsname} measurements",
             )
-
-        plt.errorbar(
-            avg_sn_lc.t.loc[good_ix, "MJD"],
-            avg_sn_lc.t.loc[good_ix, "uJy"],
-            yerr=avg_sn_lc.t.loc[good_ix, avg_sn_lc.dflux_colname],
-            fmt="none",
-            ecolor=SN_FLUX_COLORS[avg_sn_lc.filt],
-            elinewidth=1,
-            capsize=1.2,
-            c=SN_FLUX_COLORS[avg_sn_lc.filt],
-            alpha=0.5,
-            zorder=10,
-        )
-        plt.scatter(
-            avg_sn_lc.t.loc[good_ix, "MJD"],
-            avg_sn_lc.t.loc[good_ix, "uJy"],
-            s=marker_size,
-            lw=marker_edgewidth,
-            color=SN_FLUX_COLORS[avg_sn_lc.filt],
-            marker="o",
-            alpha=0.5,
-            zorder=10,
-            label=f"Cleaned & averaged SN {avg_sn.tnsname} measurements",
-        )
 
         ax1.set_xlim(lims.xlower, lims.xupper)
         ax1.set_ylim(lims.ylower, lims.yupper)

@@ -1215,6 +1215,11 @@ class LightCurve(pdastrostatsclass):
     def get_bad_indices(self, flag: int):
         return self.ix_masked("Mask", maskval=flag)
 
+    def is_all_nan(self, ix: List[int], columns: List[str] = None):
+        if columns is None:
+            columns = ["MJD", "uJy", self.dflux_colname]
+        return len(ix) > 0 and self.t.loc[ix, columns].isna().all().all()
+
     def remove_invalid_rows(self, verbose=False):
         dflux_zero_ix = self.ix_equal(colnames=["duJy"], val=0)
         flux_nan_ix = self.ix_is_null(colnames=["uJy"])
